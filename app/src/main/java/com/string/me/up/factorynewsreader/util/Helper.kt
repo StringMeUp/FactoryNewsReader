@@ -72,6 +72,10 @@ object Helper {
         this.publishedAt
     )
 
+    fun Response<NewsData>.transform(): List<DbArticle>{
+        return this.body()!!.articles.map{it.toDbArticle()}
+    }
+
     sealed class State {
         class Success<T>(val response: T) : State()
         class Failure(val error: Int) : State()
