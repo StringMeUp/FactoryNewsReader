@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Factory News Reader</string>
+    <string name="positive_button_label">U REDU</string>
+    <string name="error_title_label">Greška</string>
+    <string name="placeholder_text_label">This is just placeholder text</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="random_text_label">This is just some random text.</string>
+    <string name="error_message_label">Ups, došlo je do pogreške.</string>
+    <string name="default_toolbar_label">Factory News</string>
+    <string name="db_name_label">ArticlesDb</string>
+</resources>
