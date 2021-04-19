@@ -20,8 +20,8 @@ object Helper {
     const val TIME_OUT = 30000L
 
     //VALID API KEYS TO USE FOR TESTING (one of them should work)
-    const val API_KEY = "9e510090795445a9a0b93aa3275c3738"
-//    const val API_KEY = "5436d08829de4e09a2c88e93060e8d15"
+//    const val API_KEY = "9e510090795445a9a0b93aa3275c3738"
+    const val API_KEY = "5436d08829de4e09a2c88e93060e8d15"
 //    const val API_KEY = "f2310ef81ecd4bfa9452636568a17319"
 //    const val API_KEY = "266f58ae88e7457b93d1f6d15af5f574"
 //    const val API_KEY = "0bd314d94e8744e4a85779bfb1d09514"
