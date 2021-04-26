@@ -4,14 +4,15 @@ import com.string.me.up.factorynewsreader.R
 import com.string.me.up.factorynewsreader.db.ArticlesDao
 import com.string.me.up.factorynewsreader.news.network.NewsApi
 import com.string.me.up.factorynewsreader.util.Helper
-import com.string.me.up.factorynewsreader.util.Helper.transform
+import com.string.me.up.factorynewsreader.util.Mapper.transform
+import com.string.me.up.factorynewsreader.util.State
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 interface ApiRepository {
-    suspend fun provideArticles(): Flow<Helper.State>
-    suspend fun fetchNews(): Helper.State
+    suspend fun provideArticles(): Flow<State>
+    suspend fun fetchNews(): State
 }
 
 class NewsRepository
@@ -19,24 +20,24 @@ class NewsRepository
     private val newsApi: NewsApi,
     private val articlesDao: ArticlesDao
 ) : ApiRepository {
-    override suspend fun provideArticles(): Flow<Helper.State> = flow {
+    override suspend fun provideArticles(): Flow<State> = flow {
         val empty = articlesDao.getArticles().isEmpty()
         if (empty) emit(fetchNews())
         articlesDao.getTimeStamp()?.let {
-            val expired = System.currentTimeMillis() > it + Helper.refreshTime()
+            val expired = System.currentTimeMillis() > it + Helper.getRefreshTime()
             if (expired) emit(fetchNews())
         }
-        emit(Helper.State.Success(articlesDao.getArticles()))
+        emit(State.Success(articlesDao.getArticles()))
     }
 
-    override suspend fun fetchNews(): Helper.State {
-        val errorResult = Helper.State.Failure(R.string.error_message_label)
+    override suspend fun fetchNews(): State {
+        val errorResult = State.Failure(R.string.error_message_label)
         return try {
             val response = newsApi.getArticles()
             if (response.isSuccessful) {
                 articlesDao.delete()
                 articlesDao.insertWithTimestamp(response.transform())
-                Helper.State.Success(response.transform())
+                State.Success(response.transform())
             } else {
                 errorResult
             }

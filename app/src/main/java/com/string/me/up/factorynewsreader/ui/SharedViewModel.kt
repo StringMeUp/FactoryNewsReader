@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.string.me.up.factorynewsreader.db.DbArticle
 import com.string.me.up.factorynewsreader.news.data.Article
 import com.string.me.up.factorynewsreader.news.repo.NewsRepository
-import com.string.me.up.factorynewsreader.util.Helper
-import com.string.me.up.factorynewsreader.util.Helper.toArticle
+import com.string.me.up.factorynewsreader.util.Mapper.toArticle
+import com.string.me.up.factorynewsreader.util.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
@@ -29,11 +29,11 @@ class SharedViewModel
             .onCompletion { isLoading.postValue(false) }
             .collect { news ->
                 when (news) {
-                    is Helper.State.Success<*> -> {
+                    is State.Success<*> -> {
                         @Suppress("UNCHECKED_CAST")
                         newsList.postValue((news.response as List<DbArticle>).map { it.toArticle() })
                     }
-                    is Helper.State.Failure -> {
+                    is State.Failure -> {
                         error.postValue(news.error)
                     }
                 }

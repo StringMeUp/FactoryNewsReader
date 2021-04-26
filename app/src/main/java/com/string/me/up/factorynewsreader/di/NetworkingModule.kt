@@ -2,6 +2,7 @@ package com.string.me.up.factorynewsreader.di
 
 import com.string.me.up.factorynewsreader.BuildConfig
 import com.string.me.up.factorynewsreader.news.network.NewsApi
+import com.string.me.up.factorynewsreader.util.Constants
 import com.string.me.up.factorynewsreader.util.Helper
 import dagger.Module
 import dagger.Provides
@@ -27,9 +28,9 @@ object NetworkingModule {
     ): OkHttpClient {
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
         return builder
-            .connectTimeout(Helper.TIME_OUT, TimeUnit.MILLISECONDS)
-            .readTimeout(Helper.TIME_OUT, TimeUnit.MILLISECONDS)
-            .writeTimeout(Helper.TIME_OUT, TimeUnit.MILLISECONDS)
+            .connectTimeout(Constants.TIME_OUT, TimeUnit.MILLISECONDS)
+            .readTimeout(Constants.TIME_OUT, TimeUnit.MILLISECONDS)
+            .writeTimeout(Constants.TIME_OUT, TimeUnit.MILLISECONDS)
             .build()
     }
 
