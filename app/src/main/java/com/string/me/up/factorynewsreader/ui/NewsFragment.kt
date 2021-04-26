@@ -64,10 +64,9 @@ class NewsFragment : Fragment(R.layout.fragment_news), OnItemClickListener {
     }
 
     override fun onItemClicked(currentPosition: Int, currentTitle: String) {
-        NewsFragmentDirections.actionNewsFragmentToSingleArticleFragment(
-            currentPosition,
-            currentTitle
-        ).also { findNavController().navigate(it) }
+        sharedViewModel.setCurrentPosition(currentPosition)
+        NewsFragmentDirections.actionNewsFragmentToSingleArticleFragment(currentTitle)
+            .also { findNavController().navigate(it) }
     }
 
     private fun setLifecycle(

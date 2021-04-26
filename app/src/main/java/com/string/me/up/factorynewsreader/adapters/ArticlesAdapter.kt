@@ -9,8 +9,9 @@ import com.string.me.up.factorynewsreader.databinding.ArticlesCardBinding
 import com.string.me.up.factorynewsreader.news.data.Article
 import com.string.me.up.factorynewsreader.util.Helper
 
-class ArticlesAdapter(private val singleArticles: ArrayList<Article>) :
-    RecyclerView.Adapter<ArticlesAdapter.ArticlesViewHolder>() {
+class ArticlesAdapter(
+    private val singleArticles: ArrayList<Article>
+) : RecyclerView.Adapter<ArticlesAdapter.ArticlesViewHolder>() {
 
     fun updateArticles(updatedArticles: ArrayList<Article>) {
         singleArticles.clear()
@@ -18,7 +19,7 @@ class ArticlesAdapter(private val singleArticles: ArrayList<Article>) :
         notifyDataSetChanged()
     }
 
-    class ArticlesViewHolder(val binding: ArticlesCardBinding) :
+    class ArticlesViewHolder(private val binding: ArticlesCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(singleArticle: Article) {
             binding.run {

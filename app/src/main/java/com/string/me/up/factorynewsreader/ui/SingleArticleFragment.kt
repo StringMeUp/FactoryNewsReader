@@ -46,19 +46,25 @@ class SingleArticleFragment : Fragment(R.layout.fragment_single_article) {
         binding.singleArticlePager.apply {
             adapter = pagerAdapter
         }
-
         sharedViewModel.newsList.observe(viewLifecycleOwner, { singleArticles ->
             singleArticles?.let {
                 pagerAdapter.updateArticles(singleArticles as ArrayList<Article>)
+                lifecycleScope.launch {
+                    delay(10)
+                    binding.singleArticlePager.currentItem = sharedViewModel.currentPosition!!
+                }
             }
         })
 
-        val currentArticlePosition = args.currentPosition
-        binding.singleArticlePager.currentItem = currentArticlePosition
-        lifecycleScope.launch {
-            delay(10)
-            binding.singleArticlePager.currentItem = currentArticlePosition
-        }
+
+//        sharedViewModel.currentPosition.observe(viewLifecycleOwner, { currentPosition ->
+//            currentPosition?.let {
+//                lifecycleScope.launch {
+//                    delay(10)
+//                    binding.singleArticlePager.currentItem = it
+//                }
+//            }
+//        })
     }
 
     private fun setLifecycle(

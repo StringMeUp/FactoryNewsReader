@@ -21,10 +21,6 @@
         android:label="{toolbar_title}"
         tools:layout="@layout/fragment_single_article">
         <argument
-            android:name="current_position"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
             android:name="toolbar_title"
             app:argType="string"
             android:defaultValue="Single Article" />
