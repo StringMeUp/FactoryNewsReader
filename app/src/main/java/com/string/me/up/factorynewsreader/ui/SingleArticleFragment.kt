@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import com.string.me.up.factorynewsreader.R
 import com.string.me.up.factorynewsreader.adapters.ArticlesAdapter
 import com.string.me.up.factorynewsreader.databinding.FragmentSingleArticleBinding
@@ -49,22 +50,26 @@ class SingleArticleFragment : Fragment(R.layout.fragment_single_article) {
         sharedViewModel.newsList.observe(viewLifecycleOwner, { singleArticles ->
             singleArticles?.let {
                 pagerAdapter.updateArticles(singleArticles as ArrayList<Article>)
+            }
+        })
+
+        sharedViewModel.currentPosition.observe(viewLifecycleOwner, { position ->
+            position?.let {
                 lifecycleScope.launch {
                     delay(10)
-                    binding.singleArticlePager.currentItem = sharedViewModel.currentPosition!!
+                    binding.singleArticlePager.currentItem = it
                 }
             }
         })
 
-
-//        sharedViewModel.currentPosition.observe(viewLifecycleOwner, { currentPosition ->
-//            currentPosition?.let {
-//                lifecycleScope.launch {
-//                    delay(10)
-//                    binding.singleArticlePager.currentItem = it
-//                }
-//            }
-//        })
+        binding.singleArticlePager.registerOnPageChangeCallback(
+            object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrollStateChanged(state: Int) {
+                    if (ViewPager2.SCROLL_STATE_IDLE == state) {
+                        sharedViewModel.setCurrentPosition(binding.singleArticlePager.currentItem)
+                    }
+                }
+            })
     }
 
     private fun setLifecycle(

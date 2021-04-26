@@ -22,7 +22,7 @@ class SharedViewModel
     val newsList = MutableLiveData<List<Article>>()
     val error = MutableLiveData<Int>()
     val isLoading = MutableLiveData<Boolean>()
-    var currentPosition: Int? = null
+    var currentPosition = MutableLiveData<Int>()
 
     fun fetchNewsData() = viewModelScope.launch {
         isLoading.postValue(true)
@@ -42,6 +42,6 @@ class SharedViewModel
     }
 
     fun setCurrentPosition(position: Int) {
-        currentPosition = position
+        currentPosition.postValue(position)
     }
 }
