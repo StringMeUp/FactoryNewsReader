@@ -1,5 +1,6 @@
 package com.string.me.up.factorynewsreader.di
 
+import com.string.me.up.factorynewsreader.news.network.ApiFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
