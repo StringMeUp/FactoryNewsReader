@@ -7,7 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NewsApi {
-//www.host.com/articles
     @GET("articles")
     suspend fun getArticles(
         @Query("source") source: String = "bbc-news",
