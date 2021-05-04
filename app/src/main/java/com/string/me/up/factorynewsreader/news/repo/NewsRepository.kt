@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 interface ApiRepository {
-    suspend fun provideArticles(): Flow<State>
+    fun provideArticles(): Flow<State>
     suspend fun fetchNews(): State
 }
 
@@ -20,7 +20,7 @@ class NewsRepository
     private val newsApi: NewsApi,
     private val articlesDao: ArticlesDao
 ) : ApiRepository {
-    override suspend fun provideArticles(): Flow<State> = flow {
+    override fun provideArticles(): Flow<State> = flow {
         val empty = articlesDao.getArticles().isEmpty()
         if (empty) emit(fetchNews())
         articlesDao.getTimeStamp()?.let {
