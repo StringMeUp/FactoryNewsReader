@@ -10,6 +10,7 @@ import com.string.me.up.factorynewsreader.news.repo.NewsRepository
 import com.string.me.up.factorynewsreader.usecase.ProvideArticlesUseCase
 import com.string.me.up.factorynewsreader.usecase.ProvideArticlesUseCaseImpl
 import com.string.me.up.factorynewsreader.util.Mapper.toArticle
+import com.string.me.up.factorynewsreader.util.Resource
 import com.string.me.up.factorynewsreader.util.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -30,16 +31,20 @@ class SharedViewModel
     var currentPosition = MutableLiveData<Int>()
 
     fun fetchNewsData() = viewModelScope.launch {
-        isLoading.postValue(true)
         articlesUseCase.invoke()
             .onCompletion { isLoading.postValue(false) }
             .collect { news ->
                 when (news) {
-                    is State.Success -> {
-                        newsList.postValue(news.response.map { it.toArticle() })
+                    is Resource.Success -> {
+                        newsList.postValue(news.data?.map { it.toArticle() })
                     }
-                    is State.Failure -> {
-                        error.postValue(news.error)
+
+                    is Resource.Error -> {
+                        error.postValue(news.message!!.toInt())
+                    }
+
+                    is Resource.Loading -> {
+                        isLoading.postValue(true)
                     }
                 }
             }
