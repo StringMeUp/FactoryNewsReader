@@ -35,9 +35,8 @@ class SharedViewModel
             .onCompletion { isLoading.postValue(false) }
             .collect { news ->
                 when (news) {
-                    is State.Success<*> -> {
-                        @Suppress("UNCHECKED_CAST")
-                        newsList.postValue((news.response as List<DbArticle>).map { it.toArticle() })
+                    is State.Success -> {
+                        newsList.postValue(news.response.map { it.toArticle() })
                     }
                     is State.Failure -> {
                         error.postValue(news.error)
@@ -45,23 +44,6 @@ class SharedViewModel
                 }
             }
     }
-
-
-//        isLoading.postValue(true)
-//        newsRepository.provideArticles()
-//            .onCompletion { isLoading.postValue(false) }
-//            .collect { news ->
-//                when (news) {
-//                    is State.Success<*> -> {
-//                        @Suppress("UNCHECKED_CAST")
-//                        newsList.postValue((news.response as List<DbArticle>).map { it.toArticle() })
-//                    }
-//                    is State.Failure -> {
-//                        error.postValue(news.error)
-//                    }
-//                }
-//            }
-//}
 
     fun setCurrentPosition(position: Int) {
         currentPosition.postValue(position)
