@@ -2,7 +2,6 @@ package com.string.me.up.factorynewsreader.di
 
 import com.string.me.up.factorynewsreader.BuildConfig
 import com.string.me.up.factorynewsreader.news.network.NewsApi
-import com.string.me.up.factorynewsreader.news.network.TokenInterceptor
 import com.string.me.up.factorynewsreader.news.repo.NewsRepository
 import com.string.me.up.factorynewsreader.usecase.ProvideArticlesUseCase
 import com.string.me.up.factorynewsreader.usecase.ProvideArticlesUseCaseImpl
@@ -13,7 +12,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -49,12 +47,7 @@ object NetworkingModule {
         sslContext.init(null, trustAllCerts, java.security.SecureRandom())
         val sslSocketFactory = sslContext.socketFactory
 
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-
         return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .addInterceptor(TokenInterceptor())
             .connectTimeout(Constants.TIME_OUT, TimeUnit.MILLISECONDS)
             .readTimeout(Constants.TIME_OUT, TimeUnit.MILLISECONDS)
             .writeTimeout(Constants.TIME_OUT, TimeUnit.MILLISECONDS)
