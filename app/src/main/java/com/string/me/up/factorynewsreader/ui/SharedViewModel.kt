@@ -13,6 +13,7 @@ import com.string.me.up.factorynewsreader.util.Mapper.toArticle
 import com.string.me.up.factorynewsreader.util.Resource
 import com.string.me.up.factorynewsreader.util.State
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
@@ -33,6 +34,7 @@ class SharedViewModel
     fun fetchNewsData() = viewModelScope.launch {
         articlesUseCase.invoke()
             .onCompletion { isLoading.postValue(false) }
+            .catch {  }
             .collect { news ->
                 when (news) {
                     is Resource.Success -> {

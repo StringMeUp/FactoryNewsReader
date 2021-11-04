@@ -1,12 +1,15 @@
 package com.string.me.up.factorynewsreader.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.DialogFragmentNavigatorDestinationBuilder
 import androidx.navigation.fragment.findNavController
 import com.string.me.up.factorynewsreader.R
 import com.string.me.up.factorynewsreader.adapters.NewsAdapter
@@ -15,6 +18,8 @@ import com.string.me.up.factorynewsreader.databinding.FragmentNewsBinding
 import com.string.me.up.factorynewsreader.news.data.Article
 import com.string.me.up.factorynewsreader.util.Helper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 @AndroidEntryPoint
 class NewsFragment : Fragment(R.layout.fragment_news), OnItemClickListener {
@@ -41,6 +46,26 @@ class NewsFragment : Fragment(R.layout.fragment_news), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fun logTheHell(desc: String){
+            Log.d("TIMESTAMP", "logTheHell: $desc ")
+        }
+
+        GlobalScope.async {
+            val call1 = async { logTheHell("one") }
+            delay(500)
+            val call2 = async { logTheHell("two") }
+            delay(300)
+            val call3 = async { logTheHell("three") }
+            delay(100)
+            val call4 = async { logTheHell("four") }
+            delay(10)
+            val call5 = async { logTheHell("five") }
+        }
+
+        lifecycleScope{
+
+        }
 
         val articlesAdapter = NewsAdapter(this@NewsFragment).also {
             binding.newsRecyclerView.adapter = it
@@ -77,5 +102,13 @@ class NewsFragment : Fragment(R.layout.fragment_news), OnItemClickListener {
             viewmodel = sharedViewModel
             lifecycleOwner = viewLifecycleOwner
         }
+    }
+}
+
+interface MyINterface{
+
+    companion object{
+        fun does(){}
+        val b = 1
     }
 }
